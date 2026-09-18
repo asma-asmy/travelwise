@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Serilog;
 using TravelWise.Infrastructure;
 using TravelWise.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,5 +83,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHealthChecks("/health");
+
+// Seed data
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<TravelWiseDbContext>();
+    await db.Database.MigrateAsync();
+    await TravelWise.Infrastructure.Persistence.Seed.SeedData.ApplyAsync(db);
+}
 
 app.Run();
