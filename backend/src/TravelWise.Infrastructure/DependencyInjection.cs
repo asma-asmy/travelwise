@@ -8,6 +8,8 @@ using TravelWise.Application.Features.Budget;
 using TravelWise.Infrastructure.Auth;
 using TravelWise.Infrastructure.Persistence;
 using TravelWise.Infrastructure.Services.Budget;
+using TravelWise.Application.Features.Activities;
+using TravelWise.Infrastructure.Services.Activities;
 
 namespace TravelWise.Infrastructure;
 
@@ -37,6 +39,9 @@ public static class DependencyInjection
 
         // ---------- Budget Component ----------
         services.AddScoped<IBudgetService, BudgetService>();
+
+        // ---------- Activities Component ----------
+        services.AddScoped<IActivityService, ActivityService>();
 
         return services;
     }
