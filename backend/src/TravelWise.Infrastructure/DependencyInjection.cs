@@ -4,8 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using TravelWise.Application.Common.Interfaces;
 using TravelWise.Application.Common.Options;
 using TravelWise.Application.Features.Auth;
+using TravelWise.Application.Features.Budget;
 using TravelWise.Infrastructure.Auth;
 using TravelWise.Infrastructure.Persistence;
+using TravelWise.Infrastructure.Services.Budget;
 
 namespace TravelWise.Infrastructure;
 
@@ -15,10 +17,10 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        // Options
+        // ---------- Options ----------
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
 
-        // DbContext
+        // ---------- DbContext ----------
         var connectionString = configuration.GetConnectionString("Default")
             ?? throw new InvalidOperationException("Connection string 'Default' is missing.");
 
@@ -28,10 +30,13 @@ public static class DependencyInjection
                 npgsql.MigrationsAssembly(typeof(TravelWiseDbContext).Assembly.FullName);
             }));
 
-        // Auth
+        // ---------- Auth ----------
         services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
         services.AddSingleton<IJwtTokenService, JwtTokenService>();
         services.AddScoped<IAuthService, AuthService>();
+
+        // ---------- Budget Component ----------
+        services.AddScoped<IBudgetService, BudgetService>();
 
         return services;
     }

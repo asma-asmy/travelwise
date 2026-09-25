@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TravelWise.Application.Common.Options;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,6 +60,10 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
+// ---------- FluentValidation ----------
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<TravelWise.Application.Features.Auth.Validators.RegisterRequestValidator>();
 
 // ---------- JWT Authentication ----------
 var jwtSection = builder.Configuration.GetSection(JwtOptions.SectionName);
