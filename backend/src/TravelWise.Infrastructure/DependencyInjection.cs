@@ -13,6 +13,8 @@ using TravelWise.Infrastructure.Services.Activities;
 using TravelWise.Application.Features.Risk;
 using TravelWise.Infrastructure.Clients;
 using TravelWise.Infrastructure.Services.Risk;
+using TravelWise.Application.Features.Readiness;
+using TravelWise.Infrastructure.Services.Readiness;
 
 namespace TravelWise.Infrastructure;
 
@@ -58,6 +60,8 @@ public static class DependencyInjection
 
         services.AddScoped<IRiskService, RiskService>();
 
+        // ---------- Readiness Component ----------
+        services.AddScoped<IReadinessService, ReadinessService>();
 
         return services;
     }
