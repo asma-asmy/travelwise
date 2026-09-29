@@ -9,6 +9,7 @@ using System.Text;
 using TravelWise.Application.Common.Options;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using TravelWise.Api.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,10 +66,13 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<TravelWise.Application.Features.Auth.Validators.RegisterRequestValidator>();
 
-// ---------- JWT Authentication ----------
+// ---------- JWT + Service Token Authentication ----------
 var jwtSection = builder.Configuration.GetSection(JwtOptions.SectionName);
 var jwtOptions = jwtSection.Get<JwtOptions>()
     ?? throw new InvalidOperationException("Jwt configuration section is missing.");
+
+var serviceToken = builder.Configuration["AiService:Token"]
+    ?? throw new InvalidOperationException("AiService:Token configuration is missing.");
 
 builder.Services
     .AddAuthentication(options =>
@@ -89,7 +93,10 @@ builder.Services
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key)),
             ClockSkew = TimeSpan.FromSeconds(30)
         };
-    });
+    })
+    .AddScheme<ServiceTokenAuthOptions, ServiceTokenAuthHandler>(
+        ServiceTokenAuthHandler.SchemeName,
+        opts => opts.ExpectedToken = serviceToken);
 
 builder.Services.AddAuthorization();
 
