@@ -67,3 +67,7 @@ class WorkflowSnapshot(BaseModel):
     failure_reason: Optional[str] = None
     started_at: datetime
     completed_at: Optional[datetime] = None
+    # Audit fields — populated from the orchestrator state
+    agent_executions: list[dict[str, Any]] = Field(default_factory=list)
+    tool_calls: list[dict[str, Any]] = Field(default_factory=list)
+    events: list[dict[str, Any]] = Field(default_factory=list)

@@ -1,0 +1,35 @@
+@baseUrl = http://localhost:8000
+@token = 1YCZeOtzAWM25eKJiFTDubB1zkjrJ0fzRaNln1dAIoG7p8lw0lERr58FyAGPmWhy
+@tripId = d4a9bb29-98db-44d5-bbf8-fc84785e275a
+@userId = 90baf92b-b8bb-4415-b7df-9efe8bedddb4
+
+### Ping
+GET {{baseUrl}}/internal/ping
+Authorization: Bearer {{token}}
+
+### Start workflow
+POST {{baseUrl}}/internal/workflows/start
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "trip_id": "{{tripId}}",
+  "triggered_by_user_id": "{{userId}}",
+  "objective": "Fix my trip after a disruption."
+}
+
+### List workflows
+GET {{baseUrl}}/internal/workflows
+Authorization: Bearer {{token}}
+
+### Resume workflow — APPROVE
+POST {{baseUrl}}/internal/workflows/390888fb-f1cf-4348-9cea-4bed9e8e7b26/resume
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "workflow_id": "390888fb-f1cf-4348-9cea-4bed9e8e7b26",
+  "decision": "APPROVE",
+  "reason": "Looks good.",
+  "decided_by_user_id": "1b1bec07-d2b2-4457-a88d-cef9f2373950"
+}
