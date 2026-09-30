@@ -1,3 +1,4 @@
+import { PageHeader } from '@/components/PageHeader'
 import { useAuthStore } from '@/stores/authStore'
 
 export function DashboardPage() {
@@ -5,14 +6,16 @@ export function DashboardPage() {
   const roles = useAuthStore((s) => s.roles)
 
   return (
-    <div>
-      <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>
-        Welcome, {fullName}
-      </h1>
-      <p style={{ color: 'var(--color-text-muted)' }}>
-        Signed in as <strong>{roles.join(', ')}</strong>.
-      </p>
-      <p style={{ marginTop: '1rem' }}>Dashboard widgets coming in Phase 8E.</p>
-    </div>
+    <>
+      <PageHeader
+        title={`Welcome, ${fullName}`}
+        subtitle={`Signed in as ${roles.join(', ')}. Dashboard widgets coming in Phase 8E.`}
+      />
+      <div className="card">
+        <p style={{ color: 'var(--color-text-muted)' }}>
+          Counts, alerts, and pending approvals will appear here.
+        </p>
+      </div>
+    </>
   )
 }

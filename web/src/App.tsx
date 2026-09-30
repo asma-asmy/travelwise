@@ -3,14 +3,24 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { AuthBootstrap } from '@/components/AuthBootstrap'
 import { ProtectedRoute } from '@/components/ProtectedRoute'
+import { ToastContainer } from '@/components/ToastContainer'
 import { AppLayout } from '@/layouts/AppLayout'
 import { AuthLayout } from '@/layouts/AuthLayout'
 import { DashboardPage } from '@/pages/DashboardPage'
 import { ForbiddenPage } from '@/pages/ForbiddenPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
+import { TripsListPage } from '@/pages/TripsListPage'
+import { WorkflowsListPage } from '@/pages/WorkflowsListPage'
+import { AlertsPage } from '@/pages/AlertsPage'
+import { ActivitiesAdminPage } from '@/pages/ActivitiesAdminPage'
+import { BudgetStubPage } from '@/pages/BudgetStubPage'
+import { RiskStubPage } from '@/pages/RiskStubPage'
+import { ReadinessStubPage } from '@/pages/ReadinessStubPage'
+import { UsersAdminPage } from '@/pages/admin/UsersAdminPage'
+import { RequirementsAdminPage } from '@/pages/admin/RequirementsAdminPage'
+import { SettingsAdminPage } from '@/pages/admin/SettingsAdminPage'
 import { LoginPage } from '@/pages/auth/LoginPage'
 import { RegisterPage } from '@/pages/auth/RegisterPage'
-import { ToastContainer } from '@/components/ToastContainer'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,8 +36,8 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <ToastContainer />
         <AuthBootstrap>
-          <ToastContainer />
           <Routes>
             <Route element={<AuthLayout />}>
               <Route path="/login" element={<LoginPage />} />
@@ -43,6 +53,59 @@ export default function App() {
             >
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/trips" element={<TripsListPage />} />
+              <Route path="/budget" element={<BudgetStubPage />} />
+              <Route path="/risk" element={<RiskStubPage />} />
+              <Route path="/readiness" element={<ReadinessStubPage />} />
+
+              <Route
+                path="/workflows"
+                element={
+                  <ProtectedRoute requireAnyRole={['TravelOpsStaff', 'Admin']}>
+                    <WorkflowsListPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/alerts"
+                element={
+                  <ProtectedRoute requireAnyRole={['TravelOpsStaff', 'Admin']}>
+                    <AlertsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/activities"
+                element={
+                  <ProtectedRoute requireAnyRole={['Admin']}>
+                    <ActivitiesAdminPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/users"
+                element={
+                  <ProtectedRoute requireAnyRole={['Admin']}>
+                    <UsersAdminPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/requirements"
+                element={
+                  <ProtectedRoute requireAnyRole={['Admin']}>
+                    <RequirementsAdminPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/settings"
+                element={
+                  <ProtectedRoute requireAnyRole={['Admin']}>
+                    <SettingsAdminPage />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
 
             <Route path="/forbidden" element={<ForbiddenPage />} />
