@@ -11,13 +11,13 @@ import { DashboardPage } from '@/pages/DashboardPage'
 import { ForbiddenPage } from '@/pages/ForbiddenPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 import { TripsListPage } from '@/pages/TripsListPage'
+import { TripDetailPage } from '@/pages/TripDetailPage'
+import { MyDocumentsPage } from '@/pages/MyDocumentsPage'
+import { PreferencesPage } from '@/pages/PreferencesPage'
 import { WorkflowsListPage } from '@/pages/WorkflowsListPage'
 import { WorkflowDetailPage } from '@/pages/WorkflowDetailPage'
 import { AlertsPage } from '@/pages/AlertsPage'
 import { ActivitiesAdminPage } from '@/pages/ActivitiesAdminPage'
-import { BudgetStubPage } from '@/pages/BudgetStubPage'
-import { RiskStubPage } from '@/pages/RiskStubPage'
-import { ReadinessStubPage } from '@/pages/ReadinessStubPage'
 import { UsersAdminPage } from '@/pages/admin/UsersAdminPage'
 import { RequirementsAdminPage } from '@/pages/admin/RequirementsAdminPage'
 import { SettingsAdminPage } from '@/pages/admin/SettingsAdminPage'
@@ -57,12 +57,14 @@ export default function App() {
             >
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/trips" element={<TripsListPage />} />
-              <Route path="/budget" element={<BudgetStubPage />} />
-              <Route path="/risk" element={<RiskStubPage />} />
-              <Route path="/readiness" element={<ReadinessStubPage />} />
 
-              {/* Staff-only */}
+              {/* My Work */}
+              <Route path="/trips" element={<TripsListPage />} />
+              <Route path="/trips/:id" element={<TripDetailPage />} />
+              <Route path="/documents" element={<MyDocumentsPage />} />
+              <Route path="/preferences" element={<PreferencesPage />} />
+
+              {/* Operations — staff only */}
               <Route
                 path="/workflows"
                 element={
@@ -88,7 +90,7 @@ export default function App() {
                 }
               />
 
-              {/* Admin-only */}
+              {/* Catalogue — admin only */}
               <Route
                 path="/activities"
                 element={
@@ -97,6 +99,8 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
+
+              {/* Admin — admin only */}
               <Route
                 path="/admin/users"
                 element={

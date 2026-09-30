@@ -1,15 +1,14 @@
 import {
   LayoutDashboard,
   Map,
-  Wallet,
   CalendarDays,
-  ShieldAlert,
-  FileCheck2,
   GitBranch,
   Users,
   Bell,
   ClipboardList,
   Settings,
+  FileCheck2,
+  Heart,
 } from 'lucide-react'
 import type { UserRole } from '@/types/auth'
 
@@ -18,7 +17,6 @@ export interface NavItem {
   to: string
   icon: React.ComponentType<{ size?: number; strokeWidth?: number }>
   requireAnyRole?: UserRole[]
-  children?: NavItem[]
 }
 
 export interface NavSection {
@@ -38,12 +36,22 @@ export const NAVIGATION: NavSection[] = [
     ],
   },
   {
-    title: 'Trips',
+    title: 'My Work',
     items: [
       {
         label: 'My Trips',
         to: '/trips',
         icon: Map,
+      },
+      {
+        label: 'My Documents',
+        to: '/documents',
+        icon: FileCheck2,
+      },
+      {
+        label: 'Preferences',
+        to: '/preferences',
+        icon: Heart,
       },
     ],
   },
@@ -65,7 +73,7 @@ export const NAVIGATION: NavSection[] = [
     ],
   },
   {
-    title: 'Reference',
+    title: 'Catalogue',
     items: [
       {
         label: 'Activities',
@@ -74,19 +82,10 @@ export const NAVIGATION: NavSection[] = [
         requireAnyRole: ['Admin'],
       },
       {
-        label: 'Budget',
-        to: '/budget',
-        icon: Wallet,
-      },
-      {
-        label: 'Risk',
-        to: '/risk',
-        icon: ShieldAlert,
-      },
-      {
-        label: 'Readiness',
-        to: '/readiness',
-        icon: FileCheck2,
+        label: 'Requirements',
+        to: '/admin/requirements',
+        icon: ClipboardList,
+        requireAnyRole: ['Admin'],
       },
     ],
   },
@@ -97,12 +96,6 @@ export const NAVIGATION: NavSection[] = [
         label: 'Users',
         to: '/admin/users',
         icon: Users,
-        requireAnyRole: ['Admin'],
-      },
-      {
-        label: 'Requirements',
-        to: '/admin/requirements',
-        icon: ClipboardList,
         requireAnyRole: ['Admin'],
       },
       {

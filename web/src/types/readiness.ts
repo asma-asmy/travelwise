@@ -55,7 +55,7 @@ export interface ExpiringDocument {
 }
 
 export interface DocumentQuery {
-  type?: DocumentType
+  type?: number
   expiredOnly?: boolean
   expiringWithinDays?: boolean
   sortBy?: 'ExpiryDate' | 'Type'
@@ -65,7 +65,7 @@ export interface DocumentQuery {
 }
 
 export interface CreateDocumentRequest {
-  type: DocumentType
+  type: number      // 1=Passport, 2=Visa, 3=Insurance, 4=Vaccination, 5=Permit, 6=NationalId, 7=DriverLicense
   number: string
   issuedDate?: string | null
   expiryDate?: string | null
@@ -74,7 +74,7 @@ export interface CreateDocumentRequest {
 }
 
 export interface UpdateDocumentRequest {
-  type: DocumentType
+  type: number
   number: string
   issuedDate?: string | null
   expiryDate?: string | null

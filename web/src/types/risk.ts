@@ -72,7 +72,7 @@ export interface SafetyAlertQuery {
 export interface CreateSafetyAlertRequest {
   destination: string
   category: string
-  severity: RiskLevel
+  severity: number      // 0=Low, 1=Medium, 2=High, 3=Critical
   message: string
   validFrom: string
   validTo: string
@@ -80,7 +80,7 @@ export interface CreateSafetyAlertRequest {
 
 export interface UpdateSafetyAlertRequest {
   category: string
-  severity: RiskLevel
+  severity: number
   message: string
   validFrom: string
   validTo: string
