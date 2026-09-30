@@ -15,6 +15,8 @@ using TravelWise.Infrastructure.Clients;
 using TravelWise.Infrastructure.Services.Risk;
 using TravelWise.Application.Features.Readiness;
 using TravelWise.Infrastructure.Services.Readiness;
+using TravelWise.Application.Features.Workflows;
+using TravelWise.Infrastructure.Services.Workflows;
 
 namespace TravelWise.Infrastructure;
 
@@ -62,6 +64,22 @@ public static class DependencyInjection
 
         // ---------- Readiness Component ----------
         services.AddScoped<IReadinessService, ReadinessService>();
+
+        // ---------- Workflow service (agent orchestration integration) ----------
+        services.Configure<AiServiceOptions>(configuration.GetSection(AiServiceOptions.SectionName));
+
+        services.AddHttpClient<IAgentOrchestratorClient, AgentOrchestratorClient>((sp, client) =>
+        {
+            var opts = configuration.GetSection(AiServiceOptions.SectionName).Get<AiServiceOptions>()
+                ?? throw new InvalidOperationException("AiService configuration missing.");
+
+            client.BaseAddress = new Uri(opts.BaseUrl.TrimEnd('/'));
+            client.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", opts.Token);
+            client.Timeout = TimeSpan.FromSeconds(opts.TimeoutSeconds);
+        });
+
+        services.AddScoped<IWorkflowService, WorkflowService>();
 
         return services;
     }

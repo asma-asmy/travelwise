@@ -8,17 +8,13 @@ from app.schemas.workflow import WorkflowStatus
 
 
 async def start_workflow(
+    workflow_id: UUID,                         # ← NEW parameter
     trip_id: UUID,
     user_id: UUID,
     objective: str,
 ) -> WorkflowState:
-    """
-    Run a fresh workflow end-to-end and stop at AWAITING_APPROVAL (or earlier
-    terminal state). Persists the state in the in-memory store for later resume.
-    """
-    workflow_id = uuid4()
     orchestrator = Orchestrator(
-        workflow_id=workflow_id,
+        workflow_id=workflow_id,               # ← use the caller's ID
         trip_id=trip_id,
         user_id=user_id,
         objective=objective,

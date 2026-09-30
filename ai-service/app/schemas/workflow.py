@@ -33,6 +33,7 @@ class AgentExecutionStatus(str, Enum):
 
 
 class StartWorkflowRequest(BaseModel):
+    workflow_id: UUID
     trip_id: UUID
     objective: str = Field(..., min_length=5, max_length=1000)
     triggered_by_user_id: UUID

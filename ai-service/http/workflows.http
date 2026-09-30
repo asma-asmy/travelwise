@@ -22,14 +22,14 @@ Content-Type: application/json
 GET {{baseUrl}}/internal/workflows
 Authorization: Bearer {{token}}
 
-### Resume workflow — APPROVE
-POST {{baseUrl}}/internal/workflows/390888fb-f1cf-4348-9cea-4bed9e8e7b26/resume
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "workflow_id": "390888fb-f1cf-4348-9cea-4bed9e8e7b26",
-  "decision": "APPROVE",
-  "reason": "Looks good.",
-  "decided_by_user_id": "1b1bec07-d2b2-4457-a88d-cef9f2373950"
-}
+# ### Resume workflow — APPROVE
+# POST {{baseUrl}}/internal/workflows/390888fb-f1cf-4348-9cea-4bed9e8e7b26/resume
+# Authorization: Bearer {{token}}
+# Content-Type: application/json
+#
+# {
+#   "workflow_id": "390888fb-f1cf-4348-9cea-4bed9e8e7b26",
+#   "decision": "APPROVE",
+#   "reason": "Looks good.",
+#   "decided_by_user_id": "1b1bec07-d2b2-4457-a88d-cef9f2373950"
+# }

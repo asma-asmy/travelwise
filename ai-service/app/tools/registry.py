@@ -209,7 +209,7 @@ register(ToolDefinition(
     description="Read trip metadata: destination, dates, currency, trip type.",
     input_schema=D.TripContextInput,
     output_schema=D.TripContextOutput,
-    allowed_agents=frozenset({"Orchestrator", "RiskDetectorAgent", "RecoveryAgent", "ValidationAgent"}),
+    allowed_agents=frozenset({"Orchestrator", "RiskDetectorAgent", "RecoveryAgent", "ValidationAgent", "ReadinessAgent"}),
     handler=_h_get_trip_context,
 ))
 

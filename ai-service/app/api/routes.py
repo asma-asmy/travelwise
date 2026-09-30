@@ -28,13 +28,14 @@ async def start(
     request: StartWorkflowRequest,
     _: None = Depends(require_service_token),
 ) -> WorkflowSnapshot:
-    """
-    Start a new workflow. Runs all agents, validates, and returns
-    the state machine at AWAITING_APPROVAL (or a terminal failure state).
-    """
-    logger.info("Starting workflow for trip %s", request.trip_id)
+    logger.info(
+        "Starting workflow %s for trip %s",
+        request.workflow_id,
+        request.trip_id,
+    )
 
     state = await start_workflow(
+        workflow_id=request.workflow_id,       # ← pass the ID through
         trip_id=request.trip_id,
         user_id=request.triggered_by_user_id,
         objective=request.objective,
