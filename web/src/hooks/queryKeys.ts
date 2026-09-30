@@ -1,6 +1,7 @@
 export const queryKeys = {
   trips: {
     all: ['trips'] as const,
+    allTrips: ['trips', 'all'] as const,
     detail: (id: string) => ['trips', id] as const,
   },
   budget: {

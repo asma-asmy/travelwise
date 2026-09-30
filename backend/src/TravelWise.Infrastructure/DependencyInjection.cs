@@ -17,6 +17,8 @@ using TravelWise.Application.Features.Readiness;
 using TravelWise.Infrastructure.Services.Readiness;
 using TravelWise.Application.Features.Workflows;
 using TravelWise.Infrastructure.Services.Workflows;
+using TravelWise.Application.Features.Trips;
+using TravelWise.Infrastructure.Services.Trips;
 
 namespace TravelWise.Infrastructure;
 
@@ -80,6 +82,9 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IWorkflowService, WorkflowService>();
+
+        // ---------- Trips Component ----------
+        services.AddScoped<ITripService, TripService>();
 
         return services;
     }

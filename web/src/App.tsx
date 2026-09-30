@@ -6,11 +6,13 @@ import { ProtectedRoute } from '@/components/ProtectedRoute'
 import { ToastContainer } from '@/components/ToastContainer'
 import { AppLayout } from '@/layouts/AppLayout'
 import { AuthLayout } from '@/layouts/AuthLayout'
+
 import { DashboardPage } from '@/pages/DashboardPage'
 import { ForbiddenPage } from '@/pages/ForbiddenPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 import { TripsListPage } from '@/pages/TripsListPage'
 import { WorkflowsListPage } from '@/pages/WorkflowsListPage'
+import { WorkflowDetailPage } from '@/pages/WorkflowDetailPage'
 import { AlertsPage } from '@/pages/AlertsPage'
 import { ActivitiesAdminPage } from '@/pages/ActivitiesAdminPage'
 import { BudgetStubPage } from '@/pages/BudgetStubPage'
@@ -39,11 +41,13 @@ export default function App() {
         <ToastContainer />
         <AuthBootstrap>
           <Routes>
+            {/* Public — auth screens */}
             <Route element={<AuthLayout />}>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
             </Route>
 
+            {/* Protected — everything else */}
             <Route
               element={
                 <ProtectedRoute>
@@ -58,11 +62,20 @@ export default function App() {
               <Route path="/risk" element={<RiskStubPage />} />
               <Route path="/readiness" element={<ReadinessStubPage />} />
 
+              {/* Staff-only */}
               <Route
                 path="/workflows"
                 element={
                   <ProtectedRoute requireAnyRole={['TravelOpsStaff', 'Admin']}>
                     <WorkflowsListPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/workflows/:id"
+                element={
+                  <ProtectedRoute requireAnyRole={['TravelOpsStaff', 'Admin']}>
+                    <WorkflowDetailPage />
                   </ProtectedRoute>
                 }
               />
@@ -74,6 +87,8 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
+
+              {/* Admin-only */}
               <Route
                 path="/activities"
                 element={
@@ -108,6 +123,7 @@ export default function App() {
               />
             </Route>
 
+            {/* Public — error pages */}
             <Route path="/forbidden" element={<ForbiddenPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
