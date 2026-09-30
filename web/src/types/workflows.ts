@@ -1,3 +1,5 @@
+// ---------- Enums / unions ----------
+
 export type WorkflowStatus =
   | 'Created' | 'Planning' | 'Delegating' | 'AgentsRunning'
   | 'Validating' | 'ValidationFailed' | 'AwaitingApproval'
@@ -5,21 +7,28 @@ export type WorkflowStatus =
   | 'Rejected' | 'RevisionRequired' | 'AgentFailed'
   | 'ExternalServiceFailed' | 'SafeFailure'
 
-export interface WorkflowResponse {
-  id: string
-  tripId: string
-  objective: string
-  status: WorkflowStatus
-  currentStep: string | null
-  createdAt: string
-  completedAt: string | null
-  failureReason: string | null
-  plan: unknown
-  result: WorkflowResult | null
-  agentExecutions: AgentExecution[]
-  toolCalls: ToolCall[]
-  validations: ValidationResult[]
-  approvals: ApprovalDecision[]
+// ---------- Plan ----------
+
+export interface WorkflowPlanStep {
+  step_id: string
+  agent: string
+  task: string
+  depends_on?: string[]
+}
+
+export interface WorkflowPlan {
+  plan: WorkflowPlanStep[]
+}
+
+// ---------- Result blob ----------
+
+export interface RecoveryChange {
+  change_type: 'RESCHEDULE' | 'SUBSTITUTE' | 'REMOVE' | 'ADD'
+  activity_id?: string | null
+  new_activity_id?: string | null
+  new_date?: string | null
+  new_start_time?: string | null
+  reason: string
 }
 
 export interface WorkflowResult {
@@ -54,14 +63,7 @@ export interface WorkflowResult {
   }
 }
 
-export interface RecoveryChange {
-  change_type: 'RESCHEDULE' | 'SUBSTITUTE' | 'REMOVE' | 'ADD'
-  activity_id?: string | null
-  new_activity_id?: string | null
-  new_date?: string | null
-  new_start_time?: string | null
-  reason: string
-}
+// ---------- Sub-entities ----------
 
 export interface AgentExecution {
   id: string
@@ -100,6 +102,27 @@ export interface ApprovalDecision {
   reason: string | null
   decidedAt: string
 }
+
+// ---------- Main entity ----------
+
+export interface WorkflowResponse {
+  id: string
+  tripId: string
+  objective: string
+  status: WorkflowStatus
+  currentStep: string | null
+  createdAt: string
+  completedAt: string | null
+  failureReason: string | null
+  plan: WorkflowPlan | null
+  result: WorkflowResult | null
+  agentExecutions: AgentExecution[]
+  toolCalls: ToolCall[]
+  validations: ValidationResult[]
+  approvals: ApprovalDecision[]
+}
+
+// ---------- Requests / queries ----------
 
 export interface StartWorkflowRequest {
   objective: string
