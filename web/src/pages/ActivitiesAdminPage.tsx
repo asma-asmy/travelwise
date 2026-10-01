@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Plus, Pencil, PowerOff } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
-import { LoadingState } from '@/components/LoadingState'
 import { ErrorState } from '@/components/ErrorState'
 import { DataTable } from '@/components/DataTable'
 import { Pagination } from '@/components/Pagination'
@@ -13,6 +12,7 @@ import { apiClient } from '@/api/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToastStore } from '@/stores/toastStore'
 import type { Activity, ActivityCategory } from '@/types/activities'
+import { SkeletonTable } from '@/components/SkeletonTable'
 
 const CATEGORIES: { value: number; label: ActivityCategory }[] = [
   { value: 1, label: 'Adventure' },
@@ -176,7 +176,7 @@ export function ActivitiesAdminPage() {
         />
       </div>
 
-      {isLoading && <LoadingState />}
+      {isLoading && <SkeletonTable rows={6} columns={5} />}
       {isError && <ErrorState message="Failed to load activities." onRetry={() => refetch()} />}
       {data && (
         <>

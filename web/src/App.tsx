@@ -38,16 +38,17 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         <ToastContainer />
         <AuthBootstrap>
           <Routes>
-            {/* Public — auth screens */}
             <Route element={<AuthLayout />}>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
             </Route>
 
-            {/* Protected — everything else */}
             <Route
               element={
                 <ProtectedRoute>
@@ -58,13 +59,11 @@ export default function App() {
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<DashboardPage />} />
 
-              {/* My Work */}
               <Route path="/trips" element={<TripsListPage />} />
               <Route path="/trips/:id" element={<TripDetailPage />} />
               <Route path="/documents" element={<MyDocumentsPage />} />
               <Route path="/preferences" element={<PreferencesPage />} />
 
-              {/* Operations — staff only */}
               <Route
                 path="/workflows"
                 element={
@@ -89,8 +88,6 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
-
-              {/* Catalogue — admin only */}
               <Route
                 path="/activities"
                 element={
@@ -99,8 +96,6 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
-
-              {/* Admin — admin only */}
               <Route
                 path="/admin/users"
                 element={
@@ -127,7 +122,6 @@ export default function App() {
               />
             </Route>
 
-            {/* Public — error pages */}
             <Route path="/forbidden" element={<ForbiddenPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

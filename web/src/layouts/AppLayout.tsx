@@ -1,21 +1,49 @@
-import { useState } from 'react'
-import { Outlet } from 'react-router'
+import { useEffect, useState } from 'react'
+import { Outlet, useLocation } from 'react-router'
 import { Sidebar } from '@/components/Sidebar'
 import { Topbar } from '@/components/Topbar'
 
 export function AppLayout() {
-  // Controls the mobile drawer; on desktop the sidebar is always visible.
   const [mobileOpen, setMobileOpen] = useState(false)
+  const location = useLocation()
+
+  // Close the mobile drawer when route changes
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [location.pathname])
+
+  // Close the mobile drawer on Escape key
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setMobileOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  // Lock body scroll while drawer is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [mobileOpen])
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex' }}>
-      <Sidebar
-        isOpen={mobileOpen || isDesktop()}
-        onNavigate={() => setMobileOpen(false)}
-      />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+    <div className="app-shell">
+      <Sidebar isOpen={mobileOpen} onNavigate={() => setMobileOpen(false)} />
+
+      {mobileOpen && (
+        <button
+          className="app-overlay"
+          aria-label="Close navigation"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      <div className="app-main">
         <Topbar onMenuClick={() => setMobileOpen((v) => !v)} />
-        <main style={{ flex: 1, padding: '1.5rem 0', overflow: 'auto' }}>
+        <main id="main-content" className="app-content">
           <div className="container">
             <Outlet />
           </div>
@@ -23,10 +51,4 @@ export function AppLayout() {
       </div>
     </div>
   )
-}
-
-// Tiny helper — on wide screens the sidebar is always shown.
-function isDesktop(): boolean {
-  if (typeof window === 'undefined') return true
-  return window.innerWidth > 768
 }

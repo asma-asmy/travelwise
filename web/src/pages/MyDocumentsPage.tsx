@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Plus, Pencil, Trash2 } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
-import { LoadingState } from '@/components/LoadingState'
 import { ErrorState } from '@/components/ErrorState'
 import { DataTable } from '@/components/DataTable'
 import { Pagination } from '@/components/Pagination'
@@ -16,6 +15,7 @@ import {
 } from '@/hooks/useReadiness'
 import { useToastStore } from '@/stores/toastStore'
 import type { TravelDocument, DocumentType } from '@/types/readiness'
+import { SkeletonTable } from '@/components/SkeletonTable'
 
 const DOC_TYPES: { value: number; label: DocumentType }[] = [
   { value: 1, label: 'Passport' },
@@ -118,7 +118,7 @@ export function MyDocumentsPage() {
         }
       />
 
-      {isLoading && <LoadingState />}
+      {isLoading && <SkeletonTable rows={5} columns={5} />}
       {isError && <ErrorState message="Failed to load documents." onRetry={() => refetch()} />}
 
       {data && (

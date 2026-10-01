@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
-import { LoadingState } from '@/components/LoadingState'
 import { ErrorState } from '@/components/ErrorState'
 import { DataTable } from '@/components/DataTable'
 import { Modal } from '@/components/Modal'
@@ -11,6 +10,7 @@ import { apiClient } from '@/api/client'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useToastStore } from '@/stores/toastStore'
 import type { DocumentRequirement } from '@/types/readiness'
+import { SkeletonTable } from '@/components/SkeletonTable'
 
 const TRIP_TYPES = [
   { value: 1, label: 'Leisure' },
@@ -102,7 +102,7 @@ export function RequirementsAdminPage() {
         }
       />
 
-      {isLoading && <LoadingState />}
+      {isLoading && <SkeletonTable rows={5} columns={5} />}
       {isError && <ErrorState message="Failed to load requirements." onRetry={() => refetch()} />}
       {data && (
         <DataTable<DocumentRequirement>

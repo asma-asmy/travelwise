@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
 import { PageHeader } from '@/components/PageHeader'
-import { LoadingState } from '@/components/LoadingState'
 import { ErrorState } from '@/components/ErrorState'
 import { EmptyState } from '@/components/EmptyState'
 import { WorkflowStatusPill } from '@/components/WorkflowStatusPill'
@@ -9,6 +8,7 @@ import { useWorkflows } from '@/hooks/useWorkflows'
 import { formatRelative } from '@/utils/format'
 import { humanizeStatus } from '@/utils/workflowStatus'
 import type { WorkflowStatus } from '@/types/workflows'
+import { SkeletonTable } from '@/components/SkeletonTable'
 
 const STATUS_OPTIONS: WorkflowStatus[] = [
   'AwaitingApproval',
@@ -71,7 +71,7 @@ export function WorkflowsListPage() {
         </div>
       </div>
 
-      {isLoading && <LoadingState />}
+      {isLoading && <SkeletonTable rows={5} columns={4} />}
       {isError && <ErrorState message="Failed to load workflows." onRetry={() => refetch()} />}
       {data && data.items.length === 0 && (
         <EmptyState

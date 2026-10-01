@@ -18,22 +18,11 @@ export function Topbar({ onMenuClick }: Props) {
   }
 
   return (
-    <header
-      style={{
-        background: 'var(--color-surface)',
-        borderBottom: '1px solid var(--color-border)',
-        padding: '0.5rem 1rem',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: '1rem',
-      }}
-    >
+    <header className="app-topbar">
       <button
-        className="btn btn-secondary mobile-menu-button"
+        className="btn btn-secondary app-menu-button"
         onClick={onMenuClick}
-        aria-label="Open navigation"
-        style={{ display: 'none' }}
+        aria-label="Toggle navigation"
       >
         <Menu size={18} />
       </button>
@@ -41,13 +30,13 @@ export function Topbar({ onMenuClick }: Props) {
       <div style={{ flex: 1 }} />
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-        <div style={{ textAlign: 'right', lineHeight: 1.2 }}>
+        <div className="app-user">
           <div style={{ fontSize: '0.875rem', fontWeight: 600 }}>{fullName}</div>
           <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{email}</div>
         </div>
         <button className="btn btn-secondary" onClick={handleLogout} aria-label="Logout">
           <LogOut size={16} />
-          <span className="logout-label">Logout</span>
+          <span className="app-logout-label">Logout</span>
         </button>
       </div>
     </header>

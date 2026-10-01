@@ -1,7 +1,6 @@
 import { Link } from 'react-router'
 import { Plus } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
-import { LoadingState } from '@/components/LoadingState'
 import { ErrorState } from '@/components/ErrorState'
 import { EmptyState } from '@/components/EmptyState'
 import { StatusBadge } from '@/components/StatusBadge'
@@ -9,6 +8,7 @@ import { DataTable } from '@/components/DataTable'
 import { useTrips } from '@/hooks/useTrips'
 import { useAuthStore } from '@/stores/authStore'
 import type { Trip } from '@/types/trips'
+import { SkeletonTable } from '@/components/SkeletonTable'
 
 export function TripsListPage() {
   const roles = useAuthStore((s) => s.roles)
@@ -28,7 +28,7 @@ export function TripsListPage() {
         }
       />
 
-      {isLoading && <LoadingState />}
+      {isLoading && <SkeletonTable rows={5} columns={5} />}
       {isError && <ErrorState message="Failed to load trips." onRetry={() => refetch()} />}
       {data && data.length === 0 && (
         <EmptyState

@@ -8,31 +8,19 @@ interface Props {
   onNavigate?: () => void
 }
 
-export function Sidebar({ isOpen = true, onNavigate }: Props) {
+export function Sidebar({ isOpen = false, onNavigate }: Props) {
   const fullName = useAuthStore((s) => s.fullName)
   const roles = useAuthStore((s) => s.roles)
 
   return (
     <aside
-      style={{
-        width: '240px',
-        background: 'var(--color-surface)',
-        borderRight: '1px solid var(--color-border)',
-        display: isOpen ? 'flex' : 'none',
-        flexDirection: 'column',
-        height: '100%',
-        overflowY: 'auto',
-      }}
-      className="app-sidebar"
+      className={`app-sidebar${isOpen ? ' app-sidebar--open' : ''}`}
+      aria-label="Primary navigation"
     >
       <div style={{ padding: '1rem' }}>
         <div style={{ fontSize: '1.125rem', fontWeight: 700 }}>TravelWise</div>
-        <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-          {fullName}
-        </div>
-        <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-          {roles.join(', ')}
-        </div>
+        <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{fullName}</div>
+        <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{roles.join(', ')}</div>
       </div>
 
       <nav style={{ padding: '0 0.5rem 1rem 0.5rem' }}>

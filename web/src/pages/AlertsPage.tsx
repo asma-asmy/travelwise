@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
-import { LoadingState } from '@/components/LoadingState'
 import { ErrorState } from '@/components/ErrorState'
 import { DataTable } from '@/components/DataTable'
 import { Pagination } from '@/components/Pagination'
@@ -13,6 +12,7 @@ import { useSafetyAlerts, useCreateSafetyAlert, useDeleteSafetyAlert } from '@/h
 import { useToastStore } from '@/stores/toastStore'
 import { formatDateTime } from '@/utils/format'
 import type { SafetyAlert } from '@/types/risk'
+import { SkeletonTable } from '@/components/SkeletonTable'
 
 const CATEGORIES = ['Weather', 'Health', 'Transport', 'Safety', 'Other']
 const SEVERITIES = [
@@ -87,7 +87,7 @@ export function AlertsPage() {
         }
       />
 
-      {isLoading && <LoadingState />}
+      {isLoading && <SkeletonTable rows={6} columns={5} />}
       {isError && <ErrorState message="Failed to load alerts." onRetry={() => refetch()} />}
       {data && (
         <>
